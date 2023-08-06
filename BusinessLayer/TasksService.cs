@@ -24,10 +24,8 @@ namespace BusinessLayer
         {
             Database db = new();
             Debug.WriteLine(task);
-            task.User = db.Users.Where(u => u.Id == task.User.Id).FirstOrDefault(); // entityframework tried inserting the session user as a new 
-
+            task.User = db.Users.Where(u => u.Id == task.User.Id).FirstOrDefault()!; // entityframework tried inserting the session user as a new record
             db.Tasks.Add(task);
-
             db.SaveChanges();
         }
 

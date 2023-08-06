@@ -25,11 +25,24 @@
 
             <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 30"
                       x:Name="TasksGrid" ItemsSource="{Binding}" AlternatingRowBackground="LightGray" 
-                      AlternationCount="2" AutoGenerateColumns="False"
-                      FontSize="17" IsReadOnly="False" SelectionMode="Single"
+                      AlternationCount="2" AutoGenerateColumns="False" BorderThickness="0"
+                      FontSize="20" IsReadOnly="False" SelectionMode="Single" GridLinesVisibility="Horizontal"
                       CanUserResizeRows="False" CanUserAddRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                   Color="LightSlateGray"/>
+                </DataGrid.Resources>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsExpired}" Value="True">
+                                <Setter Property="Foreground" Value="Red"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Finished" Binding="{Binding Finished}" Width="0.15*" IsReadOnly="False"/>
+                    <DataGridCheckBoxColumn Header="Finished" Binding="{Binding Finished}" Width="0.15*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="0.60*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:dd. MM. yyyy\}}" Width="0.25*" IsReadOnly="True"/>
                 </DataGrid.Columns>

@@ -13,6 +13,8 @@ namespace DataLayer.Models
         public int? Priority { get; set; }
         public User User { get; set; }
 
+        public bool IsExpired { get { return (DateTime.UtcNow > Date) && !Finished; } }
+
         public override string ToString()
         {
             return $"{Id.ToString() ?? "null"}: {Title} ({Finished})\n" +

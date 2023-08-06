@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
 using Task = DataLayer.Models.Task;
 
 namespace WpfApp
