@@ -27,7 +27,7 @@
                       x:Name="TasksGrid" ItemsSource="{Binding}" AlternatingRowBackground="LightGray" 
                       AlternationCount="2" AutoGenerateColumns="False" BorderThickness="0"
                       FontSize="20" IsReadOnly="False" SelectionMode="Single" GridLinesVisibility="Horizontal"
-                      CanUserResizeRows="False" CanUserAddRows="False">
+                      CanUserResizeRows="False" CanUserAddRows="False" CanUserReorderColumns="False">
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
                    Color="LightSlateGray"/>
@@ -42,7 +42,7 @@
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Finished" Binding="{Binding Finished}" Width="0.15*" IsReadOnly="True"/>
+                    <DataGridCheckBoxColumn Header="Finished" Binding="{Binding Finished}" Width="0.15*" IsReadOnly="True" />
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="0.60*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:dd. MM. yyyy\}}" Width="0.25*" IsReadOnly="True"/>
                 </DataGrid.Columns>

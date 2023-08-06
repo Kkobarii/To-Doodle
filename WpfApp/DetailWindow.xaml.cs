@@ -59,13 +59,23 @@ namespace WpfApp
             Task task = new Task() { Title = title, Finished = finished, Id = null };
 
             if (!txtDate.Text.ToString().IsNullOrEmpty())
-                task.Date = DateTime.Parse(txtDate.Text);
+                try {
+                    task.Date = DateTime.Parse(txtDate.Text);
+                } catch {
+                    lblWarning.Content += "Invalid date format";
+                    return;
+                }
 
             if (!txtDescription.Text.ToString().IsNullOrEmpty())
                 task.Description = txtDescription.Text;
 
-            //if (!txtPriority.Text.ToString().IsNullOrEmpty())
-            //    task.Priority = int.Parse(txtPriority.Text);
+            if (!txtPriority.Text.IsNullOrEmpty())
+                try {
+                    task.Priority = int.Parse(txtPriority.Text);
+                } catch {
+                    lblWarning.Content += "Invalid priority format";
+                    return;
+                }
 
             task.User = Session.User!;
 

@@ -33,7 +33,7 @@
                     </StackPanel>
 
                     <Label x:Name="lblPriority" Content="Priority" FontSize="16"/>
-                    <xctk:IntegerUpDown x:Name="txtPriority" Height="30" FontSize="17" Value="1" Minimum="1" Maximum="5"/>
+                    <xctk:IntegerUpDown x:Name="txtPriority" Height="30" FontSize="17" Minimum="1" Maximum="5"/>
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
