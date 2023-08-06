@@ -8,5 +8,6 @@ The data layer uses EntityFrameworkCore to manage a Microsoft SQL Server databas
 
 ## Setup
 
+1. Install a local instance of MSSQLServer from [here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or change the connection string in `DataLayer.Database` class to connect it to your existing database.
 1. Set DataLayer as startup project and run `Update-Database` in Package Manager Console.
 2. Set WpfApp as startup project and run.
