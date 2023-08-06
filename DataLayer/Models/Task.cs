@@ -5,7 +5,7 @@ namespace DataLayer.Models
     public class Task
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Title { get; set; }
         public bool Finished { get; set; }
         public DateTime? Date { get; set; }
@@ -15,7 +15,7 @@ namespace DataLayer.Models
 
         public override string ToString()
         {
-            return $"{Id}: {Title} ({Finished})\n" +
+            return $"{Id.ToString() ?? "null"}: {Title} ({Finished})\n" +
                 $"date: {Date?.ToString() ?? "null"}\n" +
                 $"description: {Description ?? "null"}\n" +
                 $"priority: {Priority?.ToString() ?? "null"}\n" +

@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="600" Width="1000" MinHeight="350" MinWidth="600" Activated="Window_Activated">
     <Grid>
+        <DockPanel>
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="200" Background="LightGreen">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5">
+                    <Label Content="Logged in as" HorizontalAlignment="Center" Margin="20 10 20 0" FontSize="15"></Label>
+                    <TextBlock TextWrapping="Wrap" x:Name="lblUsername" Width="140" TextAlignment="Center"
+                        Text="Username" HorizontalAlignment="Center" Margin="20 10 20 40" 
+                        FontSize="28" FontWeight="Bold"></TextBlock>
+                </StackPanel>
 
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="20">
+                    <Button Content="Edit Task" Height="30" Margin="10 5" VerticalAlignment="Center" Click="Edit_Task_Button_Click"/>
+                    <Button Content="New Task" Height="30" Margin="10 5" VerticalAlignment="Center" Click="New_Task_Button_Click"/>
+                    <Button Content="Logout" Height="30" Margin="10 5" VerticalAlignment="Center" Click="Logout_Button_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 30"
+                      x:Name="TasksGrid" ItemsSource="{Binding}" AlternatingRowBackground="LightGray" 
+                      AlternationCount="2" AutoGenerateColumns="False"
+                      FontSize="17" IsReadOnly="False" SelectionMode="Single"
+                      CanUserResizeRows="False" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Finished" Binding="{Binding Finished}" Width="0.15*" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="0.60*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:dd. MM. yyyy\}}" Width="0.25*" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+        </DockPanel>
     </Grid>
 </Window>
