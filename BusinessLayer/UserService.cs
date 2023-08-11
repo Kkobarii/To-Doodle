@@ -1,12 +1,12 @@
-﻿using DataLayer;
+﻿using BusinessLayer.Interfaces;
+using DataLayer;
 using DataLayer.Models;
-using Task = DataLayer.Models.Task;
 
 namespace BusinessLayer
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        public static User? CheckLogin(string username, string password)
+        public User? CheckLogin(string username, string password)
         {
             Database db = new();
             var users = db.Users.Where(x => x.Username == username);
@@ -20,7 +20,7 @@ namespace BusinessLayer
             return null;
         }
 
-        public static string? CheckRegisterData(string username, string password, string repeatPassword) 
+        public string? CheckRegisterData(string username, string password, string repeatPassword) 
         {
             if (password != repeatPassword)
             {
@@ -36,7 +36,7 @@ namespace BusinessLayer
             return null;
         }
 
-        public static User RegisterUser(string username, string password)
+        public  User RegisterUser(string username, string password)
         {
             Database db = new();
             User user = new User()

@@ -1,18 +1,7 @@
-﻿using BusinessLayer;
+﻿using BusinessLayer.Interfaces;
 using DataLayer.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp
 {
@@ -21,14 +10,19 @@ namespace WpfApp
     /// </summary>
     public partial class RegisterWindow : Window
     {
-        public RegisterWindow()
+        private readonly ITaskService taskService;
+        private readonly IUserService userService;
+
+        public RegisterWindow(ITaskService taskService, IUserService userService)
         {
             InitializeComponent();
+            this.taskService = taskService;
+            this.userService = userService;
         }
 
         private void lblRegister_Click(object sender, RoutedEventArgs e)
         {
-            var loginWindow = new LoginWindow();
+            var loginWindow = new LoginWindow(taskService, userService);
             loginWindow.Show();
             this.Close();
         }
@@ -49,18 +43,18 @@ namespace WpfApp
             if (!String.IsNullOrEmpty(lblWarning.Content.ToString()))
                 return;
 
-            string? message = UserService.CheckRegisterData(username, password, repeatPassword);
+            string? message = userService.CheckRegisterData(username, password, repeatPassword);
             if (!String.IsNullOrEmpty(message))
             {
                 lblWarning.Content += message;
                 return;
             }
 
-            User user = UserService.RegisterUser(username, password);
+            User user = userService.RegisterUser(username, password);
 
             Session.User = user;
 
-            var mainWindow = new MainWindow();
+            var mainWindow = new MainWindow(taskService, userService);
             mainWindow.Show();
             this.Close();
         }

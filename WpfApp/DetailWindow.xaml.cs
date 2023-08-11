@@ -1,18 +1,7 @@
-﻿using BusinessLayer;
+﻿using BusinessLayer.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Task = DataLayer.Models.Task;
 
 namespace WpfApp
@@ -23,9 +12,13 @@ namespace WpfApp
     public partial class DetailWindow : Window
     {
         private Task? Task { get; set; }
-        public DetailWindow(Task? task)
+        private readonly ITaskService taskService;
+
+        public DetailWindow(ITaskService taskService, Task? task)
         {
             InitializeComponent();
+
+            this.taskService = taskService;
 
             if (task == null)
             {
@@ -49,7 +42,7 @@ namespace WpfApp
             lblWarning.Content = String.Empty;
             if (txtTitle.Text.ToString().IsNullOrEmpty())
             {
-                lblWarning.Content += "Title is required";
+                lblWarning.Content += "Title is required.";
                 return;
             }    
 
@@ -59,34 +52,24 @@ namespace WpfApp
             Task task = new Task() { Title = title, Finished = finished, Id = null };
 
             if (!txtDate.Text.ToString().IsNullOrEmpty())
-                try {
-                    task.Date = DateTime.Parse(txtDate.Text);
-                } catch {
-                    lblWarning.Content += "Invalid date format";
-                    return;
-                }
+                task.Date = DateTime.Parse(txtDate.Text);
 
             if (!txtDescription.Text.ToString().IsNullOrEmpty())
                 task.Description = txtDescription.Text;
 
             if (!txtPriority.Text.IsNullOrEmpty())
-                try {
-                    task.Priority = int.Parse(txtPriority.Text);
-                } catch {
-                    lblWarning.Content += "Invalid priority format";
-                    return;
-                }
+                task.Priority = int.Parse(txtPriority.Text);
 
             task.User = Session.User!;
 
             if (Task == null)
             {
-                TasksService.InsertTask(task);
+                taskService.InsertTask(task);
             }
             else
             {
                 task.Id = Task.Id;
-                TasksService.UpdateTask(task);
+                taskService.UpdateTask(task);
             }
 
             DialogResult = true;
@@ -107,7 +90,7 @@ namespace WpfApp
             var result = Xceed.Wpf.Toolkit.MessageBox.Show("Are you sure you want to delete this task?", "Confirmation", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.No) { return; }
 
-            TasksService.DeleteTask(Task);
+            taskService.DeleteTask(Task);
 
             DialogResult = false;
             Close();

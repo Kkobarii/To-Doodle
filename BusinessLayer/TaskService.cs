@@ -1,26 +1,27 @@
-﻿using DataLayer;
+﻿using BusinessLayer.Interfaces;
+using DataLayer;
 using DataLayer.Models;
 using System.Diagnostics;
 using Task = DataLayer.Models.Task;
 
 namespace BusinessLayer
 {
-    public class TasksService
+    public class TaskService : ITaskService
     {
-        public static List<Task> GetUserTasks(User user) 
+        public List<Task> GetUserTasks(User user) 
         {
             Database db = new();
             return db.Tasks.Where(t => t.User.Id == user.Id).ToList();
         }
 
-        public static void DeleteTask(Task task)
+        public void DeleteTask(Task task)
         {
             Database db = new();
             db.Tasks.Remove(task);
             db.SaveChanges();
         }
 
-        public static void InsertTask(Task task)
+        public void InsertTask(Task task)
         {
             Database db = new();
             Debug.WriteLine(task);
@@ -29,7 +30,7 @@ namespace BusinessLayer
             db.SaveChanges();
         }
 
-        public static void UpdateTask(Task task)
+        public void UpdateTask(Task task)
         {
             Database db = new();
             db.Tasks.Update(task);

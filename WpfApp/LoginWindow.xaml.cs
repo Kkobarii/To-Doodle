@@ -1,20 +1,7 @@
-﻿using BusinessLayer;
+﻿using BusinessLayer.Interfaces;
 using DataLayer.Models;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfApp
 {
@@ -23,10 +10,15 @@ namespace WpfApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        private readonly ITaskService taskService;
+        private readonly IUserService userService;
+
+        public LoginWindow(ITaskService taskService, IUserService userService)
         {
             InitializeComponent();
             txtUsername.Focus();
+            this.taskService = taskService;
+            this.userService = userService;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -44,24 +36,24 @@ namespace WpfApp
             if (!String.IsNullOrEmpty(lblWarning.Content.ToString()))
                 return;
 
-            User? user = UserService.CheckLogin(username, password);
+            User? user = userService.CheckLogin(username, password);
 
             if (user == null)
             {
-                lblWarning.Content += "Incorrect credentials";
+                lblWarning.Content += "Incorrect credentials.";
                 return;
             }
 
             Session.User = user;
 
-            var mainWindow = new MainWindow();
+            var mainWindow = new MainWindow(taskService, userService);
             mainWindow.Show();
             this.Close();
         }
 
         private void lblRegister_Click(object sender, RoutedEventArgs e)
         {
-            var registerWindow = new RegisterWindow();
+            var registerWindow = new RegisterWindow(taskService, userService);
             registerWindow.Show();
             this.Close();
         }

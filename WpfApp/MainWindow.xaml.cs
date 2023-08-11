@@ -1,12 +1,7 @@
-﻿using BusinessLayer;
-using DataLayer;
+﻿using BusinessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 using Task = DataLayer.Models.Task;
 
 namespace WpfApp
@@ -20,16 +15,21 @@ namespace WpfApp
         { 
             get
             {
-                return TasksService.GetUserTasks(Session.User!);
+                return taskService.GetUserTasks(Session.User!);
             }
             set
             {
                 tasks = value;
             }
         }
-        public MainWindow()
+        private readonly ITaskService taskService;
+        private readonly IUserService userService;
+        
+        public MainWindow(ITaskService taskService, IUserService userService)
         {
             InitializeComponent();
+            this.taskService = taskService;
+            this.userService = userService;
             lblUsername.Text = Session.User!.Username;
             Load_Grid();
         }
@@ -43,14 +43,14 @@ namespace WpfApp
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
             Session.User = null;
-            var loginWindow = new LoginWindow();
+            var loginWindow = new LoginWindow(taskService, userService);
             loginWindow.Show();
             this.Close();
         }
 
         private void New_Task_Button_Click(object sender, RoutedEventArgs e)
         {
-            var detailWindow = new DetailWindow(null);
+            var detailWindow = new DetailWindow(taskService, null);
             detailWindow.ShowDialog();
         }
 
@@ -61,7 +61,7 @@ namespace WpfApp
             if (task == null)
                 return;
 
-            var detailWindow = new DetailWindow(task);
+            var detailWindow = new DetailWindow(taskService, task);
             detailWindow.ShowDialog();
         }
 
